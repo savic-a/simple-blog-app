@@ -1,54 +1,38 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Blog</title>
-</head>
-<body>
-    <header>
-        <h1>Simple Blog</h1>
+@extends('layouts.app')
 
-        @auth
-            <p>Welcome, {{ auth()->user()->name }}!</p>
+@section('title', 'Home - Simple Blog')
 
-            <a href="{{ route('posts.create') }}">Create New Post</a>
+@section('content')
+    <h1 class="page-title">Latest Posts</h1>
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit">Logout</button>
-            </form>
-        @else
-            <a href="{{ route('login') }}">Login</a>
-            <a href="{{ route('register') }}">Register</a>
-        @endauth
-    </header>
+    @forelse ($posts as $post)
+        <article class="post-card">
+            <h2>
+                <a href="{{ route('posts.show', $post) }}">
+                    {{ $post->title }}
+                </a>
+            </h2>
 
-    <hr>
+            <p class="post-meta">
+                By {{ $post->user->name }}
+                &middot;
+                {{ $post->created_at->format('M d, Y') }}
+            </p>
 
-    <main>
-        <h2>Latest Posts</h2>
+            <p class="post-excerpt">
+                {{ Str::limit($post->content, 200) }}
+            </p>
 
-        @forelse ($posts as $post)
-            <article>
-                <h3> 
-                    <a href="{{ route('posts.show', $post) }}">
-                        {{ $post->title }}
-                    </a>
-                </h3>
+            <a href="{{ route('posts.show', $post) }}" class="read-more">
+                Read more &rarr;
+            </a>
+        </article>
+    @empty
+        <p>No posts available yet.</p>
+    @endforelse
 
-                <p>By {{ $post->user->name }}</p>
-
-                <p>{{ $post->content }}</p>
-
-                <hr>
-            </article>
-        @empty
-            <p>No posts available yet.</p>
-        @endforelse
-
+    <div class="pagination">
         {{ $posts->links() }}
-    </main>
-</body>
-</html>
+    </div>
+@endsection
