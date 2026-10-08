@@ -1,44 +1,60 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Post - Simple Blog</title>
-</head>
-<body>
-    <h1>Edit Post</h1>
+@extends('layouts.app')
 
-    <a href="{{ route('posts.show', $post) }}">Back to Post</a>
+@section('title', 'Edit Post - Simple Blog')
 
-    @if ($errors->any())
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+@section('content')
+    <div class="form-container form-container-wide">
+        <a href="{{ route('posts.show', $post) }}" class="back-link">
+            &larr; Back to Post
+        </a>
 
-    <form method="POST" action="{{ route('posts.update', $post) }}">
-        @csrf
-        @method('PUT')
+        <h1 class="page-title">Edit Post</h1>
 
-        <label for="title">Title</label>
-        <input
-            id="title"
-            type="text"
-            name="title"
-            value="{{ old('title', $post->title) }}"
-            required
-        >
+        @if ($errors->any())
+            <div class="alert-error">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <label for="content">Content</label>
-        <textarea
-            id="content"
-            name="content"
-            required
-        >{{ old('content', $post->content) }}</textarea>
+        <form method="POST" action="{{ route('posts.update', $post) }}">
+            @csrf
+            @method('PUT')
 
-        <button type="submit">Update Post</button>
-    </form>
-</body>
-</html>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input
+                    id="title"
+                    type="text"
+                    name="title"
+                    value="{{ old('title', $post->title) }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="content">Content</label>
+                <textarea
+                    id="content"
+                    name="content"
+                    rows="10"
+                    required
+                >{{ old('content', $post->content) }}</textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    Update Post
+                </button>
+
+                <a href="{{ route('posts.show', $post) }}" class="btn btn-secondary">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+@endsection

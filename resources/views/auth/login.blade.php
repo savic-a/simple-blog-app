@@ -1,36 +1,56 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login - Simple Blog</title>
-</head>
-<body>
-    <h1>Login</h1>
+@extends('layouts.app')
 
-    @if ($errors->any())
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+@section('title', 'Login - Simple Blog')
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+@section('content')
+    <div class="form-container">
+        <h1 class="page-title">Login</h1>
 
-        <label>Email</label>
-        <input type="email" name="email" required>
+        @if ($errors->any())
+            <div class="alert-error">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <label>Password</label>
-        <input type="password" name="password" required>
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
 
-        <button type="submit">Login</button>
-    </form>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    autocomplete="email"
+                    required
+                >
+            </div>
 
-    <p>
-        Don't have an account?
-        <a href="{{ route('register') }}">Register</a>
-    </p>
-</body>
-</html>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Login
+            </button>
+        </form>
+
+        <p class="form-footer">
+            Don't have an account?
+            <a href="{{ route('register') }}">Register</a>
+        </p>
+    </div>
+@endsection

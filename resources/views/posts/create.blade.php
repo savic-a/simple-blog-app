@@ -1,43 +1,59 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Post</title>
-</head>
-<body>
-    <h1>Create New Post</h1>
+@extends('layouts.app')
 
-    <a href="{{ route('home') }}">Back to Home</a>
+@section('title', 'Create Post - Simple Blog')
 
-    @if ($errors->any())
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+@section('content')
+    <div class="form-container form-container-wide">
+        <a href="{{ route('home') }}" class="back-link">
+            &larr; Back to Home
+        </a>
 
-    <form method="POST" action="{{ route('posts.store') }}">
-        @csrf
+        <h1 class="page-title">Create New Post</h1>
 
-        <label for="title">Title</label>
-        <input
-            id="title"
-            type="text"
-            name="title"
-            value="{{ old('title') }}"
-            required
-        >
+        @if ($errors->any())
+            <div class="alert-error">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <label for="content">Content</label>
-        <textarea
-            id="content"
-            name="content"
-            required
-        >{{ old('content') }}</textarea>
+        <form method="POST" action="{{ route('posts.store') }}">
+            @csrf
 
-        <button type="submit">Create Post</button>
-    </form>
-</body>
-</html>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input
+                    id="title"
+                    type="text"
+                    name="title"
+                    value="{{ old('title') }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="content">Content</label>
+                <textarea
+                    id="content"
+                    name="content"
+                    rows="10"
+                    required
+                >{{ old('content') }}</textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    Create Post
+                </button>
+
+                <a href="{{ route('home') }}" class="btn btn-secondary">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+@endsection

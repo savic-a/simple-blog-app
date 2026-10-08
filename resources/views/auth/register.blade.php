@@ -1,42 +1,79 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register - Simple Blog</title>
-</head>
-<body>
-    <h1>Register</h1>
+@extends('layouts.app')
 
-    @if ($errors->any())
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+@section('title', 'Register - Simple Blog')
 
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+@section('content')
+    <div class="form-container">
+        <h1 class="page-title">Register</h1>
 
-        <label>Name</label>
-        <input type="text" name="name" required>
+        @if ($errors->any())
+            <div class="alert-error">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <label>Email</label>
-        <input type="email" name="email" required>
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
 
-        <label>Password</label>
-        <input type="password" name="password" required>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    value="{{ old('name') }}"
+                    autocomplete="name"
+                    required
+                >
+            </div>
 
-        <label>Confirm Password</label>
-        <input type="password" name="password_confirmation" required>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    autocomplete="email"
+                    required
+                >
+            </div>
 
-        <button type="submit">Register</button>
-    </form>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
 
-    <p>
-        Already have an account?
-        <a href="{{ route('login') }}">Login</a>
-    </p>
-</body>
-</html>
+            <div class="form-group">
+                <label for="password_confirmation">Confirm Password</label>
+                <input
+                    id="password_confirmation"
+                    type="password"
+                    name="password_confirmation"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Register
+            </button>
+        </form>
+
+        <p class="form-footer">
+            Already have an account?
+            <a href="{{ route('login') }}">Login</a>
+        </p>
+    </div>
+@endsection
