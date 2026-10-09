@@ -220,11 +220,6 @@ The application provides:
 
 - User registration
 - User login and logout
-- Password reset functionality
-- Email verification functionality
-- Profile information updates
-- Password updates
-- Account deletion
 
 Authentication is required to create, edit, or delete blog posts.
 
