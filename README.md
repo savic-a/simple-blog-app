@@ -6,7 +6,9 @@ The application supports user authentication, blog post management, guest and au
 
 ## Features
 
-- User registration, login, and logout using Laravel Fortify
+- User registration, login, and logout using Laravel Breeze
+- Password reset and email verification functionality
+- User profile management
 - Public blog post listing with pagination
 - Create, edit, and delete blog posts
 - Authorization: only post authors can edit or delete their posts
@@ -22,7 +24,7 @@ The application supports user authentication, blog post management, guest and au
 - PHP 8.4
 - Laravel 13
 - SQLite
-- Laravel Fortify
+- Laravel Breeze
 - Blade
 - PHPUnit
 - Docker and Docker Compose
@@ -66,7 +68,11 @@ Copy-Item .env.example .env
 New-Item database/database.sqlite -ItemType File
 ```
 
-Make sure the environment configuration uses SQLite.
+Make sure the environment configuration uses SQLite:
+
+```env
+DB_CONNECTION=sqlite
+```
 
 ### 3. Build and start the containers
 
@@ -112,9 +118,11 @@ Run the automated tests inside Docker:
 docker compose exec -e APP_ENV=testing app php artisan test
 ```
 
-The test suite contains **20 feature tests** covering:
+The test suite currently contains **43 automated tests** covering:
 
 - User registration, login, and logout
+- Password reset and email verification
+- User profile management
 - Post creation, updating, and deletion
 - Post ownership and authorization
 - Guest and authenticated comments
@@ -134,6 +142,26 @@ composer install
 ### 2. Configure the environment
 
 Copy `.env.example` to `.env`, configure SQLite, and create the database file if needed.
+
+**Linux / macOS / Git Bash:**
+
+```bash
+cp .env.example .env
+touch database/database.sqlite
+```
+
+**Windows PowerShell:**
+
+```powershell
+Copy-Item .env.example .env
+New-Item database/database.sqlite -ItemType File
+```
+
+Ensure the `.env` file contains:
+
+```env
+DB_CONNECTION=sqlite
+```
 
 ### 3. Generate the application key
 
@@ -183,3 +211,62 @@ php artisan test
 | Delete other comments | Not allowed unless the user owns the post |
 
 Guests must provide their name when submitting comments.
+
+## Authentication
+
+Authentication is implemented using **Laravel Breeze**.
+
+The application provides:
+
+- User registration
+- User login and logout
+- Password reset functionality
+- Email verification functionality
+- Profile information updates
+- Password updates
+- Account deletion
+
+Authentication is required to create, edit, or delete blog posts.
+
+Public blog posts and comments can be viewed without authentication.
+
+## Database
+
+The application uses SQLite.
+
+Database migrations define the required tables and relationships for users, posts, and comments.
+
+Factories and seeders provide demonstration data for local development and testing.
+
+To reset and reseed the database locally:
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+**Warning:** This command deletes all existing database tables and data. Use it only when you want to reset the database.
+
+## Project Structure
+
+- `app/Http/Controllers` — Application controllers
+- `app/Http/Controllers/Auth` — Authentication controllers
+- `app/Http/Requests` — Form request validation
+- `app/Models` — Eloquent models
+- `app/Policies` — Authorization policies
+- `database/migrations` — Database schema
+- `database/factories` — Model factories
+- `database/seeders` — Database seeders
+- `resources/views` — Blade templates
+- `public/css/style.css` — Application styling
+- `routes/web.php` — Blog and profile routes
+- `routes/auth.php` — Authentication routes
+- `tests/Feature` — Feature tests
+
+## Notes
+
+- The application uses Laravel policies to enforce ownership and authorization rules.
+- Guests can submit comments by providing their names.
+- Authenticated users can manage their own blog posts.
+- Comment authors and post authors have permission to delete the relevant comments.
+- Docker provides a containerized environment for running the application.
+- Automated tests verify the main application functionality and authorization rules.
