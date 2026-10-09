@@ -115,7 +115,7 @@ Visit:
 Run the automated tests inside Docker:
 
 ```bash
-docker compose exec -e APP_ENV=testing app php artisan test
+docker compose exec -e APP_ENV=testing -e SESSION_DRIVER=array app php artisan test --compact
 ```
 
 The test suite currently contains **43 automated tests** covering:
