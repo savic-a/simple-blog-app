@@ -7,8 +7,6 @@ The application supports user authentication, blog post management, guest and au
 ## Features
 
 - User registration, login, and logout using Laravel Breeze
-- Password reset and email verification functionality
-- User profile management
 - Public blog post listing with pagination
 - Create, edit, and delete blog posts
 - Authorization: only post authors can edit or delete their posts
