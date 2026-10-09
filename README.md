@@ -183,9 +183,3 @@ php artisan test
 | Delete other comments | Not allowed unless the user owns the post |
 
 Guests must provide their name when submitting comments.
-
-## Database
-
-The application uses **SQLite** for simplicity and ease of setup.
-
-Database structure is managed using Laravel migrations. Factories and seeders generate sample data for demonstration purposes.
